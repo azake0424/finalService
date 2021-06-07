@@ -2,23 +2,27 @@ package handlers
 
 import (
 	"context"
-	"encoding/json"
+	"errors"
+	"finalService/foundation/web"
 	"log"
+	"math/rand"
 	"net/http"
 )
 
 type check struct {
-	logger *log.Logger
+	log *log.Logger
 }
 
 func (c check) readiness(ctx context.Context, w http.ResponseWriter, r *http.Request) error {
-	r.Context()
+	if n := rand.Intn(100); n%100 == 0 {
+		return web.NewRequestError(errors.New("trusrted error"), http.StatusBadRequest)
+	}
+
 	status := struct {
 		Status string
 	}{
 		Status: "Ok",
 	}
-	c.logger.Println(status)
-	return json.NewEncoder(w).Encode(status)
+	return web.Respond(ctx, w, status, http.StatusOK)
 
 }
