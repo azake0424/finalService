@@ -10,9 +10,7 @@ import (
 )
 
 func Panics(log *log.Logger) web.Middleware {
-
 	m := func(handler web.Handler) web.Handler {
-
 		h := func(ctx context.Context, w http.ResponseWriter, r *http.Request) (err error) {
 
 			v, ok := ctx.Value(web.KeyValues).(*web.Values)
